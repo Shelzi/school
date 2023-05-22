@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthCheckController {
     private static final String HEALTH_CHECK_STATUS = "status:";
     private static final String HEALTH_CHECK_MESSAGE = "UP";
-
-    public HealthCheckController() {
-    }
-
+    
     @RequestMapping("/health")
     public Pair<String, String> checkHealth() {
         return Pair.of(HEALTH_CHECK_STATUS, HEALTH_CHECK_MESSAGE);
