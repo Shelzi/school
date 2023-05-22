@@ -1,7 +1,7 @@
 package com.altonix.repository.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +17,7 @@ import static com.altonix.repository.constant.ProfileName.DEVELOPMENT;
 
 @Configuration
 @PropertySource("classpath:properties/database.properties")
+@RequiredArgsConstructor
 public class DataSourceConfiguration {
     private static final String DATABASE_DRIVER_CLASS_NAME = "spring.datasource.driver-class-name";
     private static final String DATABASE_URL = "spring.datasource.url";
@@ -27,12 +28,7 @@ public class DataSourceConfiguration {
     private static final String CREATE_DATABASE_SCRIPT = "classpath:database_scripts/schema.sql";
     private static final String FILL_DATABASE_WITH_DATA_SCRIPT = "classpath:database_scripts/data.sql";
 
-    private Environment environment;
-
-    @Autowired
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
+    private final Environment environment;
 
     @Profile(PRODUCTION)
     @Bean
@@ -56,7 +52,7 @@ public class DataSourceConfiguration {
                 .build();
     }
 
-    private static int parseMaxPoolSize(String property) {
+    private static int parseMaxPoolSize(final String property) {
         int maxPoolSize;
         try {
             maxPoolSize = Integer.parseInt(property);
